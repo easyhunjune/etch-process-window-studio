@@ -1,0 +1,15 @@
+# Local Python environment and caches
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Personal learning guide: keep local, never publish
+NOOB_GUIDE.md
+
+# Copyrighted source papers stay local; hashes and citations remain tracked
+papers/*.pdf
+
+# Career and interview notes stay local; technical reports remain public
+# Wildcard covers dated revisions such as P4_CAREER_PACKAGE_REVISED_YYYY-MM-DD.md
+/reports/P4_CAREER_PACKAGE*.md

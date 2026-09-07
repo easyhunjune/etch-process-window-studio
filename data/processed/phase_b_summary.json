@@ -1,0 +1,45 @@
+{
+  "dataset_rows": 32,
+  "input_digests": {
+    "data/raw/legtenberg_1995_ccd.csv": "412e55a5c41c87aff2810d93952dbca8a53d1e53bcbab0093c73b4f949514e57",
+    "data/raw/legtenberg_1995_paper_coefficients.csv": "5dc41db2e63e113171ed206296e682acb5db0789d697a8ab304fa84d95f7c4da",
+    "src/etch_window/data_access.py": "06ec5cb9be9ac48c3257e903121d2ed66c0569f48a58dc8f83d4591989de4ca0",
+    "src/etch_window/design.py": "aaa1c9e3b32381d2db5fa518c9a39fb5fe793fe77bc4060b7128379f5eb09acd",
+    "src/etch_window/rsm.py": "85092217eada524fb91a4a5cc98e399594f6bf970f21a762e0686f16f7a11b83",
+    "src/etch_window/anova.py": "4d86c62ce529f6fde562c5687650362bbf6949368f949d27cadb66697b3985b6",
+    "src/etch_window/window.py": "50ca2a33895de48ab27db7f7bbcad22f672a84f2476af045cc1120827a7baa6d",
+    "scripts/run_phase_b.py": "aab47440ff2b0db32cfe1dc2b77335857a6c349533da759f81d8d65b0712f831"
+  },
+  "design_rank": 21,
+  "model_terms": 21,
+  "specifications": {
+    "min_etch_rate_um_min": 0.4,
+    "min_selectivity": 8.0,
+    "max_nonuniformity_pct": 4.5,
+    "source": "demonstration_only_not_from_paper"
+  },
+  "window": {
+    "vary": [
+      "sf6",
+      "o2"
+    ],
+    "resolution": 81,
+    "feasible_grid_fraction": 0.0,
+    "nominal_grid_fraction": 0.46364883401920437,
+    "design_region_grid_fraction": 0.500076207895138,
+    "definition": "Pointwise 95% prediction intervals satisfy all three specs and the point lies inside both the DOE convex hull and observed leverage envelope.",
+    "fixed_actual": {
+      "chf3_sccm": 12.0,
+      "pressure_mtorr": 100.0,
+      "rf_power_w": 100.0
+    }
+  },
+  "warnings": [
+    "Non-uniformity adjusted R-squared is below 0.5.",
+    "Anisotropy coefficients and R-squared do not reproduce the paper.",
+    "Etch-rate R-squared reproduces the paper but residual s does not.",
+    "No prediction outside the original DOE bounds is allowed.",
+    "Factor-wise bounds alone are insufficient; the process window also applies convex-hull and leverage support checks.",
+    "Prediction states use pointwise, not simultaneous, 95% intervals."
+  ]
+}

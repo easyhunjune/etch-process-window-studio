@@ -1,0 +1,24 @@
+term,paper_symbol,factor_1,factor_2,si_etch_rate_um_min,si_sio2_selectivity,anisotropy,bias_voltage_v
+intercept,b0,,,0.434,9.34,0.969,87
+linear,b1,sf6,,0.052,2.34,-0.066,-65
+linear,b2,o2,,0.010,-0.36,0.079,11
+linear,b3,chf3,,0.004,-0.14,0.004,7
+linear,b4,pressure,, -0.043,2.90,0.008,-102
+linear,b5,rf_power,,0.147,-1.72,-0.043,89
+quadratic,b11,sf6,sf6,-0.014,-0.05,-0.040,29
+quadratic,b22,o2,o2,-0.017,-0.01,-0.013,-1
+quadratic,b33,chf3,chf3,-0.016,-0.06,-0.023,2
+quadratic,b44,pressure,pressure,-0.027,1.05,-0.035,38
+quadratic,b55,rf_power,rf_power,-0.030,-0.44,-0.056,25
+interaction,b12,sf6,o2,0.003,-0.90,0.029,-6
+interaction,b13,sf6,chf3,-0.008,0.60,0.004,4
+interaction,b14,sf6,pressure,-0.016,0.65,-0.039,23
+interaction,b15,sf6,rf_power,0.035,-1.11,0.058,-14
+interaction,b23,o2,chf3,0.028,0.16,0.054,-17
+interaction,b24,o2,pressure,-0.007,-1.34,-0.016,2
+interaction,b25,o2,rf_power,0.018,1.70,0.035,5
+interaction,b34,chf3,pressure,0.022,1.29,-0.019,7
+interaction,b35,chf3,rf_power,-0.023,-1.15,0.028,-3
+interaction,b45,pressure,rf_power,0.027,-1.93,0.008,-46
+model_standard_deviation,s,,,0.01,0.5,0.01,1.5
+model_r_squared,R2,,,0.99,0.90,0.95,0.99

@@ -1,0 +1,47 @@
+{
+  "acquired_at": "2026-07-30",
+  "selection_rule": "At most three candidate papers; require complete DOE inputs and measured responses, at least two responses including etch rate, and paper-side ANOVA or regression coefficients.",
+  "sources": [
+    {
+      "id": "legtenberg_1995",
+      "role": "primary",
+      "status": "selected",
+      "citation": "R. Legtenberg, H. Jansen, M. de Boer, and M. Elwenspoek, Anisotropic Reactive Ion Etching of Silicon Using SF6/O2/CHF3 Gas Mixtures, Journal of The Electrochemical Society 142(6), 2020-2028 (1995).",
+      "doi": "10.1149/1.2044234",
+      "download_url": "https://ris.utwente.nl/ws/portalfiles/portal/6038968/thesis_R_Legtenberg.pdf",
+      "local_pdf": "papers/legtenberg_thesis_ch4_source.pdf",
+      "sha256": "c73b4a2434725c412840ea77c885e3b9d9aab75d3e379357de6451ce125e9f69",
+      "bytes": 4730597,
+      "source_location": "Thesis Chapter 4 reproduces the journal article; PDF pages 85-89 contain Tables 4.1-4.4.",
+      "data_files": [
+        "data/raw/legtenberg_1995_ccd.csv",
+        "data/raw/legtenberg_1995_paper_coefficients.csv"
+      ]
+    },
+    {
+      "id": "muttalib_2017",
+      "role": "candidate_backup",
+      "status": "rejected",
+      "citation": "M. F. A. Muttalib, R. Y. Chen, S. J. Pearce, and M. D. B. Charlton, Optimization of reactive-ion etching parameters for fabrication of tantalum pentoxide waveguide using Taguchi method, EPJ Web of Conferences 162, 01003 (2017).",
+      "doi": "10.1051/epjconf/201716201003",
+      "download_url": "https://www.epj-conferences.org/articles/epjconf/pdf/2017/31/epjconf_incape2017_01003.pdf",
+      "local_pdf": "papers/muttalib_2017_ta2o5_taguchi.pdf",
+      "sha256": "b8794173bc98791e88df40bad6398a5b9fa1448b835a387b9536b6e0d6af359b",
+      "bytes": 498094,
+      "rejection_reason": "No ANOVA or regression coefficient table. Printed Table 2 pressure assignments are not orthogonal and conflict with the pressure-level means in Table 4.",
+      "audit_file": "data/raw/muttalib_2017_l9_audit.csv"
+    },
+    {
+      "id": "tipton_1993",
+      "role": "candidate_backup",
+      "status": "rejected",
+      "citation": "G. D. Tipton et al., Optimization of an Electron Cyclotron Resonance Plasma Etch Process for n+ Polysilicon: HBr Process Chemistry, SAND-93-1856C (1993).",
+      "report_number": "SAND-93-1856C",
+      "download_url": "https://www.osti.gov/servlets/purl/10191032",
+      "local_pdf": "papers/tipton_1993_ecr_hbr_rsm.pdf",
+      "sha256": "93777dd933e14ad057fc4860f663982ba55fca15c48c07e5178a36e7cc01fc0e",
+      "bytes": 1081984,
+      "rejection_reason": "The 20-run RSM factor ranges and model coefficients are present, but the complete run-by-run measured response table is absent."
+    }
+  ]
+}
