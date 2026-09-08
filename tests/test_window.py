@@ -219,6 +219,67 @@ def test_etch_rate_must_clear_the_prediction_lower_bound(
     assert (state[straddles] == "uncertain").all()
 
 
+def test_nonuniformity_must_clear_the_prediction_upper_bound(
+    real_doe_models: dict[str, FullQuadraticRSM],
+) -> None:
+    # This slice contains intervals below, across, and above the ceiling at 95%.
+    # Leave the other specifications non-binding to isolate nonuniformity.
+    ceiling = 2.6
+    result = evaluate_process_window(
+        real_doe_models,
+        ProcessSpecs(-1e6, -1e6, ceiling),
+        vary=("sf6", "rf_power"),
+        fixed_actual={"o2": 10.0, "chf3": 22.0, "pressure": 100.0},
+        resolution=21,
+    )
+    lower = np.asarray(result["nonuniformity_prediction_lower"])
+    upper = np.asarray(result["nonuniformity_prediction_upper"])
+    state = np.asarray(result["confidence_state"])
+    feasible = np.asarray(result["feasible"], dtype=bool)
+    straddles = (lower <= ceiling) & (ceiling < upper)
+    confirmed = upper <= ceiling
+    rejected = lower > ceiling
+
+    assert straddles.any()
+    assert confirmed.any()
+    assert rejected.any()
+    assert (state[straddles] == "uncertain").all()
+    assert not feasible[straddles].any()
+    assert (state[confirmed] == "confirmed").all()
+    assert (state[rejected] == "rejected").all()
+    assert not feasible[rejected].any()
+
+
+def test_selectivity_must_clear_the_prediction_lower_bound(
+    real_doe_models: dict[str, FullQuadraticRSM],
+) -> None:
+    # Isolate selectivity with non-binding etch-rate and nonuniformity limits.
+    floor = 13.7
+    result = evaluate_process_window(
+        real_doe_models,
+        ProcessSpecs(-1e6, floor, 1e6),
+        vary=("sf6", "pressure"),
+        fixed_actual={"o2": 10.0, "chf3": 12.0, "rf_power": 100.0},
+        resolution=21,
+    )
+    lower = np.asarray(result["selectivity_prediction_lower"])
+    upper = np.asarray(result["selectivity_prediction_upper"])
+    state = np.asarray(result["confidence_state"])
+    feasible = np.asarray(result["feasible"], dtype=bool)
+    straddles = (lower < floor) & (floor <= upper)
+    confirmed = lower >= floor
+    rejected = upper < floor
+
+    assert straddles.any()
+    assert confirmed.any()
+    assert rejected.any()
+    assert (state[straddles] == "uncertain").all()
+    assert not feasible[straddles].any()
+    assert (state[confirmed] == "confirmed").all()
+    assert (state[rejected] == "rejected").all()
+    assert not feasible[rejected].any()
+
+
 def test_anisotropy_adjustment_precedes_supported_state_derivation(
     real_doe_models: dict[str, FullQuadraticRSM],
     monkeypatch: pytest.MonkeyPatch,

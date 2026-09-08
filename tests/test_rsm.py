@@ -1,11 +1,17 @@
 from __future__ import annotations
 
+from pathlib import Path
+
 import numpy as np
+import pandas as pd
 import pytest
 from scipy.stats import t as t_distribution
 
+from etch_window.data_access import RESPONSE_COLUMNS
 from etch_window.design import COEFFICIENT_NAMES, FACTOR_NAMES, build_design_matrix
 from etch_window.rsm import FullQuadraticRSM
+
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
 
 
 def test_design_matrix_matches_paper_order(doe_frame) -> None:
@@ -98,3 +104,35 @@ def test_prediction_interval_rejects_impossible_confidence(doe_frame) -> None:
     for bad in (0.0, 1.0, -0.1, 1.5):
         with pytest.raises(ValueError, match="between zero and one"):
             model.prediction_interval(coded, confidence=bad)
+
+
+@pytest.mark.parametrize(
+    ("response_name", "expected", "rounded"),
+    [
+        ("etch_rate", 0.9719710736, "0.9720"),
+        ("selectivity", 0.683172257681, "0.6832"),
+        ("nonuniformity", 0.1428251449698, "0.1428"),
+        ("anisotropy", 0.5410455578942, "0.5410"),
+        ("bias_voltage", 0.9805351268272, "0.9805"),
+    ],
+)
+def test_adjusted_r_squared_matches_closed_form_and_headlines(
+    doe_frame, response_name, expected, rounded
+) -> None:
+    coded = doe_frame[[f"{name}_code" for name in FACTOR_NAMES]].to_numpy()
+    response = doe_frame[RESPONSE_COLUMNS[response_name]].to_numpy()
+    model = FullQuadraticRSM.fit(coded, response)
+    n = model.n_observations
+    p = model.rank
+    closed_form = 1 - (1 - model.r_squared) * (n - 1) / (n - p)
+    saved = pd.read_csv(PROJECT_ROOT / "data" / "processed" / "model_metrics.csv").set_index(
+        "response"
+    )
+
+    assert model.adjusted_r_squared == pytest.approx(closed_form, rel=1e-12)
+    assert model.adjusted_r_squared == pytest.approx(expected, rel=1e-8)
+    assert model.adjusted_r_squared == pytest.approx(
+        saved.loc[response_name, "adjusted_r_squared"], rel=1e-8
+    )
+    assert f"{model.adjusted_r_squared:.4f}" == rounded
+    assert f"{saved.loc[response_name, 'adjusted_r_squared']:.4f}" == rounded
